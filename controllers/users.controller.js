@@ -113,7 +113,7 @@ const followUserController = asyncHandler(async (req, res) => {
     });
     return res
       .status(200)
-      .json({ message: "You have unfollowed the user", isFollowing: true });
+      .json({ message: "You have unfollowed the user", isFollowing: false });
   }
 
   // Follow the user
@@ -127,7 +127,7 @@ const followUserController = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json({ message: "You are now following the user", isFollowing: false });
+    .json({ message: "You are now following the user", isFollowing: true });
 });
 
 const deleteUserController = asyncHandler(async (req, res) => {
