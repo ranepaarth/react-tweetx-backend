@@ -86,7 +86,6 @@ const getUserByIdController = asyncHandler(async (req, res) => {
 const getUserByNameController = asyncHandler(async (req, res) => {
   const userName = req.params.userName;
 
-
   const user = await User.findByUserName(userName);
 
   if (!user) {
@@ -112,7 +111,9 @@ const followUserController = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(userId, {
       $pull: { followers: currUserId },
     });
-    return res.status(200).json({ message: "You have unfollowed the user" });
+    return res
+      .status(200)
+      .json({ message: "You have unfollowed the user", isFollowing: true });
   }
 
   // Follow the user
@@ -124,7 +125,9 @@ const followUserController = asyncHandler(async (req, res) => {
     $addToSet: { followers: currUserId },
   });
 
-  return res.status(200).json({ message: "You are now following the user" });
+  return res
+    .status(200)
+    .json({ message: "You are now following the user", isFollowing: false });
 });
 
 const deleteUserController = asyncHandler(async (req, res) => {

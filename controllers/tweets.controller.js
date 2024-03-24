@@ -150,9 +150,11 @@ const saveTweetController = asyncHandler(async (req, res) => {
       }
     );
 
-    return res
-      .status(200)
-      .json({ message: "Tweet unsaved.", savedTweets: user.savedTweets });
+    return res.status(200).json({
+      message: "Tweet unsaved.",
+      savedTweets: user.savedTweets,
+      isSaved: false,
+    });
   }
 
   // pushing the saved tweet id in the savedTweets array for future user.
@@ -168,6 +170,7 @@ const saveTweetController = asyncHandler(async (req, res) => {
   res.status(200).json({
     message: "Tweet saved successfully",
     savedTweets: user.savedTweets,
+    isSaved: true,
   });
 });
 
