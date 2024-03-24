@@ -8,6 +8,7 @@ const {
   getUserByNameController,
   followUserController,
   getCurrUserProfileController,
+  unFollowUserController,
 } = require("../controllers/users.controller");
 
 const userRouter = express.Router();
@@ -21,6 +22,7 @@ userRouter.route("/profile/:userName").get(getUserByNameController);
 userRouter.route("/delete/:userId").delete(deleteUserController);
 userRouter.route('/search/:userName').get(searchUserByNameController)
 userRouter.route('/handle-follow').patch(followUserController)
+userRouter.route('/handle-unfollow').patch(unFollowUserController)
 
 
 module.exports = userRouter;

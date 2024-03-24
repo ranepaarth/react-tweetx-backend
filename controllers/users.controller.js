@@ -104,16 +104,7 @@ const followUserController = asyncHandler(async (req, res) => {
 
   // already following the user, Therefore unfollow the user
   if (userToFollow.followers.includes(currUserId)) {
-    await User.findByIdAndUpdate(currUserId, {
-      $pull: { followings: userId },
-    });
-
-    await User.findByIdAndUpdate(userId, {
-      $pull: { followers: currUserId },
-    });
-    return res
-      .status(200)
-      .json({ message: "You have unfollowed the user", isFollowing: false });
+    return res.status(400).json({ message: "You already follow the user" });
   }
 
   // Follow the user
@@ -128,6 +119,40 @@ const followUserController = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json({ message: "You are now following the user", isFollowing: true });
+});
+
+const unFollowUserController = asyncHandler(async (req, res) => {
+  const currUserId = req.user.id;
+  const { userId } = req.body;
+
+  const currUser = await User.findById(currUserId);
+
+  if (!currUser?.followings?.includes(userId)) {
+    return res.status(400).json({ message: "User not found in followings" });
+  }
+
+  await User.findByIdAndUpdate(
+    currUserId,
+    {
+      $pull: { followings: userId },
+    },
+    {
+      new: true,
+    }
+  );
+  await User.findByIdAndUpdate(
+    userId,
+    {
+      $pull: { followers: currUserId },
+    },
+    {
+      new: true,
+    }
+  );
+
+  res
+    .status(200)
+    .json({ message: "You have unfollowed the user", isFollowing: false });
 });
 
 const deleteUserController = asyncHandler(async (req, res) => {
@@ -180,5 +205,6 @@ module.exports = {
   deleteUserController,
   searchUserByNameController,
   followUserController,
+  unFollowUserController,
   getCurrUserProfileController,
 };
