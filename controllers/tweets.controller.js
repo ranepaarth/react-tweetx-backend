@@ -202,7 +202,7 @@ const deleteTweetController = asyncHandler(async (req, res) => {
 
   const tweet = await Tweet.findByIdAndDelete(tweetId);
   await User.findByIdAndUpdate(req.user.id, {
-    $pull: { tweets: tweetId },
+    $pull: { tweets: tweetId, savedTweets: tweetId },
   });
   res.status(200).json(tweet);
 });
