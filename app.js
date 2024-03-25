@@ -13,7 +13,7 @@ const { tweetRouter } = require("./routes/tweets.routes");
 const app = express();
 
 const corsOptions = {
-  origin: '*',
+  origin: constants.ALLOWED_URLS,
   credentials: true,
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
